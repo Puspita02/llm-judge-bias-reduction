@@ -1,6 +1,7 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 
+
 class HuggingFaceJudge:
 
     def __init__(self, model_name):
@@ -26,17 +27,54 @@ class HuggingFaceJudge:
 
     def generate(self, prompt):
 
+        messages = [
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ]
+
+        text = self.tokenizer.apply_chat_template(
+            messages,
+            tokenize=False,
+            add_generation_prompt=True
+        )
+
         inputs = self.tokenizer(
-            prompt,
+            text,
             return_tensors="pt"
         )
 
-        outputs = self.model.generate(
-            **inputs,
-            max_new_tokens=100
-        )
+        with torch.no_grad():
+            outputs = self.model.generate(
+                **inputs,
+                max_new_tokens=200,
+                do_sample=False
+            )
+
+        generated = outputs[0][inputs["input_ids"].shape[1]:]
 
         return self.tokenizer.decode(
-            outputs[0],
+            generated,
             skip_special_tokens=True
         )
+    def judge(self, question, answer_a, answer_b, system_prompt):
+
+        prompt = f"""
+    {system_prompt}
+
+    Question:
+    {question}
+
+    Response A:
+    {answer_a}
+
+    Response B:
+    {answer_b}
+
+    Which response is better?
+
+    Return ONLY valid JSON.
+    """
+
+        return self.generate(prompt)

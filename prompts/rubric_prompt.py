@@ -1,19 +1,9 @@
-"""
-Rubric Prompt
-"""
-
 RUBRIC_PROMPT = """
-Evaluate both responses using this rubric.
-
-Criteria:
+Evaluate using this rubric:
 
 - Accuracy
 - Completeness
 - Clarity
 - Relevance
 - Safety
-
-Choose the better response.
-
-Return JSON.
 """

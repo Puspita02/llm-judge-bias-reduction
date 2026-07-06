@@ -1,15 +1,7 @@
-"""
-Self Check Prompt
-"""
-
 SELF_CHECK_PROMPT = """
-Compare the responses.
+Before giving your answer ask yourself:
 
-Before answering ask yourself:
+Would I make the same decision if Response A and Response B were swapped?
 
-"Would I make the same decision if the answers were swapped?"
-
-If yes, return your decision.
-
-Return JSON.
+If yes, return the decision.
 """

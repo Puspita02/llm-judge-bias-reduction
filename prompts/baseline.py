@@ -1,24 +1,7 @@
-"""
-Baseline Judge Prompt
-"""
-
-
 BASELINE_PROMPT = """
-You are an impartial evaluator.
+You are an impartial AI judge.
 
-Your task is to compare two candidate responses to a user question.
+Compare the two responses fairly.
 
-Instructions:
-
-1. Evaluate only based on quality.
-2. Ignore response order.
-3. Ignore response length unless it improves quality.
-4. Select the better answer.
-
-Return your answer in JSON format:
-
-{
-    "winner": "A",
-    "reason": "Short explanation"
-}
+Judge only the quality of the responses.
 """

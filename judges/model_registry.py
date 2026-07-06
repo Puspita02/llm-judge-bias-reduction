@@ -1,9 +1,5 @@
 MODELS = {
-
     "qwen": "Qwen/Qwen2.5-1.5B-Instruct",
-
     "phi": "microsoft/Phi-3-mini-4k-instruct",
-
-    "llama": "meta-llama/Llama-3.2-1B-Instruct"
-
+    "llama": "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 }

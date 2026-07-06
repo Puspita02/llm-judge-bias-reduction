@@ -1,25 +1,12 @@
-"""
-Chain-of-Thought Prompt
-"""
-
 COT_PROMPT = """
-You are an expert evaluator.
-
 Think carefully before deciding.
 
-Evaluate:
+Consider:
 
-- Correctness
-- Helpfulness
+- Accuracy
 - Completeness
-- Safety
+- Clarity
+- Helpfulness
 
-Reason step by step internally.
-
-Return only:
-
-{
-    "winner":"A",
-    "reason":"..."
-}
+Then produce the final answer.
 """

@@ -1,13 +1,9 @@
-"""
-Position Neutral Prompt
-"""
-
 POSITION_NEUTRAL_PROMPT = """
-The order of responses is random.
+The order of the responses is random.
 
-Do not prefer the first or second response because of its position.
+Do not favor the first response.
 
-Judge only the quality.
+Do not favor the second response.
 
-Return JSON.
+Judge only response quality.
 """
