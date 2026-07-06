@@ -1,17 +1,37 @@
-from judges.hf_judge import HuggingFaceJudge
+from utils.loader import load_mtbench
+from judges.qwen import QwenJudge
+from evaluation.evaluate import Evaluator
 
 
 def main():
 
-    judge = HuggingFaceJudge("qwen")
+    dataset = load_mtbench()
 
-    print()
+    sample = dataset[0]
 
-    print("Architecture works!")
+    answer_a = """
+    Hawaii has beautiful beaches, volcanoes,
+    local culture and many tourist attractions.
+    """
 
-    print()
+    answer_b = """
+    Hawaii has beaches.
+    """
 
-    print(judge.model_name)
+    judge = QwenJudge()
+
+    evaluator = Evaluator(
+        judge,
+        "baseline"
+    )
+
+    result = evaluator.evaluate(
+        sample,
+        answer_a,
+        answer_b
+    )
+
+    print(result)
 
 
 if __name__ == "__main__":
