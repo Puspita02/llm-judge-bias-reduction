@@ -1,13 +1,17 @@
-from prompts.baseline import BASELINE_PROMPT
+from judges.hf_judge import HuggingFaceJudge
 
 
 def main():
 
-    print("="*60)
-    print("Baseline Prompt")
-    print("="*60)
+    judge = HuggingFaceJudge("qwen")
 
-    print(BASELINE_PROMPT)
+    print()
+
+    print("Architecture works!")
+
+    print()
+
+    print(judge.model_name)
 
 
 if __name__ == "__main__":

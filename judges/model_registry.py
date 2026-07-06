@@ -1,7 +1,7 @@
 """
 Model Registry
 
-Stores the Hugging Face model names used in this project.
+Stores all Hugging Face model names used in this project.
 """
 
 MODELS = {
