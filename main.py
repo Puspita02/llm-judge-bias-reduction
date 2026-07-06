@@ -1,24 +1,33 @@
-
 from utils.loader import load_mtbench
+from judges.qwen import QwenJudge
 
 
 def main():
 
-    print("=" * 60)
-    print("LLM Judge Bias Reduction")
-    print("=" * 60)
-
-    print("\nLoading MT-Bench...\n")
-
     dataset = load_mtbench()
 
-    print("Dataset Loaded Successfully!")
+    sample = dataset[0]
 
-    print(f"\nTotal Questions: {len(dataset)}")
+    judge = QwenJudge()
 
-    print("\nFirst Sample:\n")
+    result = judge.evaluate(
+        question=sample["question"],
+        answer_a="This is answer A.",
+        answer_b="This is answer B."
+    )
 
-    print(dataset[0])
+    print("=" * 60)
+    print("Sample Evaluation")
+    print("=" * 60)
+
+    print("\nQuestion:")
+    print(sample["question"])
+
+    print("\nWinner:")
+    print(result["winner"])
+
+    print("\nReason:")
+    print(result["reason"])
 
 
 if __name__ == "__main__":

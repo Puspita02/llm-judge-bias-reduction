@@ -1,7 +1,9 @@
 """
 Dataset Loader Module
+---------------------
 
-Loads benchmark datasets used in the project.
+Loads benchmark datasets and converts them into
+a unified format for evaluation.
 """
 
 from datasets import load_dataset
@@ -9,12 +11,11 @@ from datasets import load_dataset
 
 def load_mtbench():
     """
-    Load the MT-Bench benchmark dataset.
+    Load MT-Bench and convert it to a standard format.
 
     Returns
     -------
-    Dataset
-        Hugging Face Dataset object.
+    list[dict]
     """
 
     dataset = load_dataset(
@@ -22,4 +23,14 @@ def load_mtbench():
         split="train"
     )
 
-    return dataset
+    samples = []
+
+    for item in dataset:
+        samples.append({
+            "id": item["prompt_id"],
+            "category": item["category"],
+            "question": item["prompt"],
+            "reference": item["reference"]
+        })
+
+    return samples
