@@ -1,15 +1,9 @@
-"""
-Qwen Judge
-"""
-
-from judges.base_judge import BaseJudge
+from judges.hf_judge import HuggingFaceJudge
+from judges.model_registry import MODELS
 
 
-class QwenJudge(BaseJudge):
+class QwenJudge(HuggingFaceJudge):
 
-    def evaluate(self, question, answer_a, answer_b):
+    def __init__(self):
 
-        return {
-            "winner": "A",
-            "reason": "Mock evaluation (API not connected yet)"
-        }
+        super().__init__(MODELS["qwen"])

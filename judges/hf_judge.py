@@ -1,47 +1,42 @@
-"""
-Hugging Face Judge
-"""
-
-from transformers import pipeline
-
-from judges.model_registry import MODELS
-
+from transformers import AutoTokenizer, AutoModelForCausalLM
+import torch
 
 class HuggingFaceJudge:
 
     def __init__(self, model_name):
 
-        self.model_name = MODELS[model_name]
-
-        print(f"Selected Model: {self.model_name}")
-
-        # We are NOT loading the model yet.
-        self.generator = None
+        self.model_name = model_name
+        self.tokenizer = None
+        self.model = None
 
     def load_model(self):
 
-        self.generator = pipeline(
+        print(f"Loading {self.model_name}...")
 
-            "text-generation",
-
-            model=self.model_name
-
+        self.tokenizer = AutoTokenizer.from_pretrained(
+            self.model_name
         )
 
-    def evaluate(self, prompt):
+        self.model = AutoModelForCausalLM.from_pretrained(
+            self.model_name,
+            torch_dtype=torch.float32
+        )
 
-        if self.generator is None:
+        print("Model loaded successfully!")
 
-            raise RuntimeError("Model not loaded.")
+    def generate(self, prompt):
 
-        response = self.generator(
-
+        inputs = self.tokenizer(
             prompt,
-
-            max_new_tokens=150,
-
-            do_sample=False
-
+            return_tensors="pt"
         )
 
-        return response[0]["generated_text"]
+        outputs = self.model.generate(
+            **inputs,
+            max_new_tokens=100
+        )
+
+        return self.tokenizer.decode(
+            outputs[0],
+            skip_special_tokens=True
+        )
