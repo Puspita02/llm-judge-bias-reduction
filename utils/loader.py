@@ -26,10 +26,12 @@ def load_mtbench():
     samples = []
 
     for item in dataset:
+        question = item["prompt"][0] if isinstance(item["prompt"], list) else item["prompt"]
+
         samples.append({
             "id": item["prompt_id"],
             "category": item["category"],
-            "question": item["prompt"],
+            "question": question,
             "reference": item["reference"]
         })
 
