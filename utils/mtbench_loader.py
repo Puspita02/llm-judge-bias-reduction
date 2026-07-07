@@ -3,10 +3,7 @@ MT-Bench Loader
 
 Loads:
 - Questions
-- GPT-4 Answers
-- Another Model's Answers
-
-Returns a unified dataset.
+- Two model answers
 """
 
 import json
@@ -14,7 +11,6 @@ from pathlib import Path
 
 
 def load_jsonl(file_path):
-    """Load a JSONL file."""
 
     data = []
 
@@ -25,7 +21,11 @@ def load_jsonl(file_path):
     return data
 
 
-def load_mtbench(mtbench_path, model_a="gpt-4", model_b="vicuna-13b-v1.5"):
+def load_mtbench(
+    mtbench_path,
+    model_a="gpt-4",
+    model_b="vicuna-13b-v1.3"
+):
 
     mtbench_path = Path(mtbench_path)
 
@@ -34,51 +34,52 @@ def load_mtbench(mtbench_path, model_a="gpt-4", model_b="vicuna-13b-v1.5"):
     )
 
     answers_a = load_jsonl(
-        mtbench_path / "model_answer" / f"{model_a}.jsonl"
+        mtbench_path /
+        "model_answer" /
+        f"{model_a}.jsonl"
     )
 
     answers_b = load_jsonl(
-        mtbench_path / "model_answer" / f"{model_b}.jsonl"
+        mtbench_path /
+        "model_answer" /
+        f"{model_b}.jsonl"
     )
 
-    answer_map_a = {
-        item["question_id"]: item
-        for item in answers_a
+    map_a = {
+        x["question_id"]: x
+        for x in answers_a
     }
 
-    answer_map_b = {
-        item["question_id"]: item
-        for item in answers_b
+    map_b = {
+        x["question_id"]: x
+        for x in answers_b
     }
 
     dataset = []
 
-    for question in questions:
+    for q in questions:
 
-        qid = question["question_id"]
+        qid = q["question_id"]
 
-        if qid not in answer_map_a:
+        if qid not in map_a:
             continue
 
-        if qid not in answer_map_b:
+        if qid not in map_b:
             continue
 
         dataset.append({
 
             "id": qid,
 
-            "category": question.get(
-                "category",
-                "unknown"
-            ),
+            "category": q["category"],
 
-            "question": question["turns"][0],
+            "question": q["turns"][0],
 
             "answer_a":
-                answer_map_a[qid]["choices"][0]["turns"][0],
+                map_a[qid]["choices"][0]["turns"][0],
 
             "answer_b":
-                answer_map_b[qid]["choices"][0]["turns"][0]
+                map_b[qid]["choices"][0]["turns"][0]
 
         })
 

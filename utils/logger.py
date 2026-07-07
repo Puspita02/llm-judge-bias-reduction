@@ -1,7 +1,5 @@
 """
 Result Logger
-
-Saves experiment results into a CSV file.
 """
 
 import csv
@@ -13,11 +11,8 @@ class ResultLogger:
     def __init__(self, file_path="results/results.csv"):
 
         self.file_path = Path(file_path)
-
-        # Create results folder if it doesn't exist
         self.file_path.parent.mkdir(parents=True, exist_ok=True)
 
-        # Create CSV file with header if it doesn't exist
         if not self.file_path.exists():
 
             with open(self.file_path, "w", newline="", encoding="utf-8") as f:
@@ -29,10 +24,18 @@ class ResultLogger:
                     "category",
                     "prompt_strategy",
                     "winner",
-                    "reason"
+                    "reason",
+                    "verbosity_bias"
                 ])
 
-    def log(self, question_id, category, prompt_name, result):
+    def log(
+        self,
+        question_id,
+        category,
+        prompt_name,
+        result,
+        verbosity_bias
+    ):
 
         with open(self.file_path, "a", newline="", encoding="utf-8") as f:
 
@@ -43,5 +46,6 @@ class ResultLogger:
                 category,
                 prompt_name,
                 result["winner"],
-                result["reason"]
+                result["reason"],
+                verbosity_bias
             ])

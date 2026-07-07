@@ -1,10 +1,11 @@
 """
-Run experiments on MT-Bench
+Run MT-Bench Evaluation
 """
 
-from utils.loader import load_mtbench
+from utils.mtbench_loader import load_mtbench
 from evaluation.experiment import ExperimentRunner
 from utils.logger import ResultLogger
+from evaluation.verbosity_bias import VerbosityBiasEvaluator
 
 
 class MTBenchRunner:
@@ -12,14 +13,16 @@ class MTBenchRunner:
     def __init__(self, judge):
 
         self.judge = judge
-
         self.logger = ResultLogger()
 
     def run(self, limit=5):
 
-        dataset = load_mtbench()
+        dataset = load_mtbench(
+            "Datasets/FastChat/fastchat/llm_judge/data/mt_bench"
+        )
 
         experiment = ExperimentRunner(self.judge)
+        verbosity = VerbosityBiasEvaluator()
 
         all_results = []
 
@@ -27,25 +30,32 @@ class MTBenchRunner:
 
             print(f"\nEvaluating Question {sample['id']}")
 
-            # Temporary answers
-            answer_a = "This is a detailed answer."
-
-            answer_b = "This is a short answer."
-
             results = experiment.run(
                 sample["question"],
-                answer_a,
-                answer_b
+                sample["answer_a"],
+                sample["answer_b"]
             )
 
-            # Save every prompt result
+            # Evaluate each prompt strategy
             for prompt_name, result in results.items():
 
+                vb = verbosity.evaluate(
+                    sample["answer_a"],
+                    sample["answer_b"],
+                    result["winner"]
+                )
+
+                print(
+                    f"{prompt_name} -> Verbosity Bias: {vb['verbosity_bias']}"
+                )
+
+                # Save results
                 self.logger.log(
                     sample["id"],
                     sample["category"],
                     prompt_name,
-                    result
+                    result,
+                    vb["verbosity_bias"]
                 )
 
             all_results.append(results)
