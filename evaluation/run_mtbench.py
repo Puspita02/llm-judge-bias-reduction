@@ -1,15 +1,19 @@
 """
-Run experiments on MT-Bench.
+Run experiments on MT-Bench
 """
 
 from utils.loader import load_mtbench
 from evaluation.experiment import ExperimentRunner
+from utils.logger import ResultLogger
 
 
 class MTBenchRunner:
 
     def __init__(self, judge):
+
         self.judge = judge
+
+        self.logger = ResultLogger()
 
     def run(self, limit=5):
 
@@ -23,21 +27,27 @@ class MTBenchRunner:
 
             print(f"\nEvaluating Question {sample['id']}")
 
-            # Temporary answers for testing
+            # Temporary answers
             answer_a = "This is a detailed answer."
 
             answer_b = "This is a short answer."
 
-            result = experiment.run(
+            results = experiment.run(
                 sample["question"],
                 answer_a,
                 answer_b
             )
 
-            all_results.append({
-                "id": sample["id"],
-                "category": sample["category"],
-                "results": result
-            })
+            # Save every prompt result
+            for prompt_name, result in results.items():
+
+                self.logger.log(
+                    sample["id"],
+                    sample["category"],
+                    prompt_name,
+                    result
+                )
+
+            all_results.append(results)
 
         return all_results
