@@ -1,6 +1,6 @@
 from judges.qwen import QwenJudge
 from evaluation.run_mtbench import MTBenchRunner
-
+from evaluation.statistics import Statistics
 
 def main():
 
@@ -21,7 +21,8 @@ def main():
     print("EXPERIMENT FINISHED")
     print("=" * 60)
     print(f"Processed {len(results)} MT-Bench questions.")
-
+    stats = Statistics()
+    stats.print_summary()
 
 if __name__ == "__main__":
     main()
