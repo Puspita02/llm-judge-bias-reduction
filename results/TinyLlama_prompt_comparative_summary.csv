@@ -1,0 +1,11 @@
+model,dataset,prompt,base_acc,base_pos_bias,base_verb_corr,acc,pos_bias,verb_corr,d_acc,d_pos_bias,d_verb_corr
+TinyLlama,mtbench,ROLE,0.0615,0.166,-0.0011,0.1607,0.182,-0.0359,0.0992,0.016,-0.0348
+TinyLlama,mtbench,POSITION_NEUTRAL,0.0615,0.166,-0.0011,0.0,0.012,,-0.0615,-0.154,
+TinyLlama,mtbench,COT,0.0615,0.166,-0.0011,0.1228,0.174,-0.0508,0.0613,0.008,-0.0497
+TinyLlama,mtbench,RUBRIC,0.0615,0.166,-0.0011,0.1481,0.098,-0.0101,0.0866,-0.068,-0.009
+TinyLlama,mtbench,SELF_REFINE,0.0615,0.166,-0.0011,0.0804,0.8381,-0.1342,0.0189,0.6721,-0.1331
+TinyLlama,llmbar,ROLE,0.5,0.0477,-0.0239,0.6667,0.0406,-0.1496,0.1667,-0.0071,-0.1257
+TinyLlama,llmbar,POSITION_NEUTRAL,0.5,0.0477,-0.0239,0.5,0.0215,-0.0435,0.0,-0.0262,-0.0196
+TinyLlama,llmbar,COT,0.5,0.0477,-0.0239,0.5625,0.0668,0.0252,0.0625,0.0191,0.0491
+TinyLlama,llmbar,RUBRIC,0.5,0.0477,-0.0239,0.6667,0.0382,-0.0962,0.1667,-0.0095,-0.0723
+TinyLlama,llmbar,SELF_REFINE,0.5,0.0477,-0.0239,0.5015,0.8902,-0.0834,0.0015,0.8425,-0.0595
